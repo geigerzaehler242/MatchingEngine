@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		ED15A348256D9312005F7008 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED15A347256D9312005F7008 /* main.cpp */; };
+		ED15A397257D582B005F7008 /* UDPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED15A395257D582B005F7008 /* UDPServer.cpp */; };
+		EDED4C9D25B9064700B086A5 /* OrderTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */; };
+		EDED4CA325B90DDB00B086A5 /* DepthBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */; };
+		EDED4CA725BA348000B086A5 /* Exchange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA525BA348000B086A5 /* Exchange.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +29,14 @@
 /* Begin PBXFileReference section */
 		ED15A344256D9312005F7008 /* MatchingEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MatchingEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED15A347256D9312005F7008 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		ED15A395257D582B005F7008 /* UDPServer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UDPServer.cpp; sourceTree = "<group>"; };
+		ED15A396257D582B005F7008 /* UDPServer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UDPServer.hpp; sourceTree = "<group>"; };
+		EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OrderTracker.cpp; sourceTree = "<group>"; };
+		EDED4C9C25B9064700B086A5 /* OrderTracker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrderTracker.hpp; sourceTree = "<group>"; };
+		EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthBook.cpp; sourceTree = "<group>"; };
+		EDED4CA225B90DDB00B086A5 /* DepthBook.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DepthBook.hpp; sourceTree = "<group>"; };
+		EDED4CA525BA348000B086A5 /* Exchange.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Exchange.cpp; sourceTree = "<group>"; };
+		EDED4CA625BA348000B086A5 /* Exchange.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Exchange.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +70,14 @@
 			isa = PBXGroup;
 			children = (
 				ED15A347256D9312005F7008 /* main.cpp */,
+				EDED4CA525BA348000B086A5 /* Exchange.cpp */,
+				EDED4CA625BA348000B086A5 /* Exchange.hpp */,
+				EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */,
+				EDED4CA225B90DDB00B086A5 /* DepthBook.hpp */,
+				EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */,
+				EDED4C9C25B9064700B086A5 /* OrderTracker.hpp */,
+				ED15A395257D582B005F7008 /* UDPServer.cpp */,
+				ED15A396257D582B005F7008 /* UDPServer.hpp */,
 			);
 			path = MatchingEngine;
 			sourceTree = "<group>";
@@ -88,7 +108,7 @@
 		ED15A33C256D9312005F7008 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1230;
 				TargetAttributes = {
 					ED15A343256D9312005F7008 = {
 						CreatedOnToolsVersion = 12.2;
@@ -118,7 +138,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED15A397257D582B005F7008 /* UDPServer.cpp in Sources */,
 				ED15A348256D9312005F7008 /* main.cpp in Sources */,
+				EDED4CA325B90DDB00B086A5 /* DepthBook.cpp in Sources */,
+				EDED4CA725BA348000B086A5 /* Exchange.cpp in Sources */,
+				EDED4C9D25B9064700B086A5 /* OrderTracker.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +155,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -190,7 +214,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -239,9 +263,11 @@
 		ED15A34C256D9312005F7008 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z79254QWB6;
 				ENABLE_HARDENED_RUNTIME = YES;
+				"HEADER_SEARCH_PATHS[arch=*]" = /usr/local/Cellar/boost/1.74.0/include/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -249,9 +275,11 @@
 		ED15A34D256D9312005F7008 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z79254QWB6;
 				ENABLE_HARDENED_RUNTIME = YES;
+				"HEADER_SEARCH_PATHS[arch=*]" = /usr/local/Cellar/boost/1.74.0/include/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
