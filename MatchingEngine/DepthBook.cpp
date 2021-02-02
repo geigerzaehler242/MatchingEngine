@@ -53,7 +53,7 @@
 //        threadLock.unlock();
     }
     
-    std::tuple<Price,Quantity,Price,Quantity> DepthBook::getTOB() {
+    std::tuple<Price, Quantity, Price, Quantity> DepthBook::getTOB() {
         
         std::multimap<Price, std::shared_ptr<OrderTracker>, std::greater<Price> >::iterator pBids = Bids.begin();
         std::multimap<Price, std::shared_ptr<OrderTracker>, std::less<Price> >::iterator pAsks = Asks.begin();
@@ -382,11 +382,11 @@
         tPrintService.join();
     }
     
-    void DepthBook::enableDepthBook(OrderSymbol tickerSymbol) {
-        depthBookControlMap[tickerSymbol] = true;
-    }
-
-    void DepthBook::closeDepthBook(OrderSymbol tickerSymbol) {
-        depthBookControlMap[tickerSymbol] = false;
-    }
+//    void DepthBook::enableDepthBook(OrderSymbol tickerSymbol) {
+//        depthBookControlMap[tickerSymbol] = true;
+//    }
+//
+//    void DepthBook::closeDepthBook(OrderSymbol tickerSymbol) {
+//        depthBookControlMap[tickerSymbol] = false;
+//    }
     

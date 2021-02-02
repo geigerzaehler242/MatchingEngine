@@ -41,9 +41,9 @@ public:
     
     void printTOBChange(Quantity quantity, Price price, OrderType orderType);
     
-    void enableDepthBook(OrderSymbol tickerSymbol);
-
-    void closeDepthBook(OrderSymbol tickerSymbol);
+//    void enableDepthBook(OrderSymbol tickerSymbol);
+//
+//    void closeDepthBook(OrderSymbol tickerSymbol);
     
 private:
     OrderSymbol tickerSymbol;

@@ -86,7 +86,8 @@ void processOrderCommand(std::vector<std::string> orderCommand, std::shared_ptr<
 
 int main(int argc, const char * argv[]) {
 
-//"cat inputfile.csv | nc -u -w 60 127.0.0.1 1234” to send the input data
+//to send the input data
+//cat inputfile.csv | nc -u -w 1 127.0.0.1 1234
     
     //create UDP receiver for order data
     boost::asio::io_service io_service;
@@ -111,11 +112,9 @@ int main(int argc, const char * argv[]) {
     char status = ' ';
     
     std::cout << "Running Exchange" << std::endl;
-    std::cout << "Enter 'q' to exit: " << std::endl;
+//    std::cout << "Enter 'q' to exit: " << std::endl;
     
     while(  status != 'q' ) {
-        
-        std::cin >> status;
         
         auto orderVector = server.getOrderVector();
         
@@ -127,10 +126,14 @@ int main(int argc, const char * argv[]) {
                 std::vector<std::string> orderCommand = server.split(order, ',');
                 processOrderCommand(orderCommand, pExchange);
                 
-                std::this_thread::sleep_for(std::chrono::nanoseconds(1000000)); //temporary time limiter for debugging!!
+//                std::this_thread::sleep_for(std::chrono::nanoseconds(1000000)); //temporary time limiter for debugging!!
             }
             
             server.clearOrderVector();
+            
+//            std::cout << "Running Exchange" << std::endl;
+//            std::cout << "Enter 'q' to exit: " << std::endl;
+//            std::cin >> status;
         }
         
     };
