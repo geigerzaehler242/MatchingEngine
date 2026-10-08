@@ -2,7 +2,7 @@
 //  Exchange.hpp
 //  MatchingEngine
 //
-//  Created by fernando marto on 2021-01-21.
+//  
 //
 
 #ifndef Exchange_hpp
@@ -34,7 +34,7 @@ public:
 
     void cancelOrder(std::vector<std::string> orderCommand);
 
-    void flushOrderBook() ;
+    void flushOrderBook();
 
 private:
 

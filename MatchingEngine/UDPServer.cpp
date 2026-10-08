@@ -2,56 +2,105 @@
 //  UDPServer.cpp
 //  MatchingEngine
 //
-//  Created by fernando marto on 2020-12-06.
+//
 //
 
+#include <string>
+#include <iostream>
 #include "UDPServer.hpp"
-
-UDPServer::UDPServer(boost::asio::io_service& io_service, boost::asio::ip::udp::endpoint remote_endpoint) :
-remote_endpoint(remote_endpoint), socket(io_service, remote_endpoint) {
+    
+UDPServer::UDPServer(boost::asio::io_context& io_context, short port) :
+     socket(io_context, boost::asio::ip::udp::udp::endpoint(boost::asio::ip::udp::udp::v4(), port)) {
     
         start_receive();
     }
-    
+
 UDPServer::~UDPServer() {
         socket.close();
 }
 
-void UDPServer::ioServiceRun() {
-    io_service.run();
-}
+//void UDPServer::ioServiceRun() {
+//    io_service.run();
+//}
 
 void UDPServer::start_receive() {
     
     socket.async_receive_from(
-                              boost::asio::buffer(receiveBuffer), remote_endpoint,
-                              boost::bind(&UDPServer::handle_receive,
-                                          this,
-                                          boost::asio::placeholders::error,
-                                          boost::asio::placeholders::bytes_transferred)
-                              );
+        boost::asio::buffer(receiveBuffer),
+        remote_endpoint,
+        [this](boost::system::error_code ec, std::size_t bytes_transferred) {
+            handle_receive(ec, bytes_transferred);
+        }
+    );
 }
 
-void UDPServer::handle_receive(const boost::system::error_code& error, std::size_t bytes_transferred) {
+void UDPServer::handle_receive(const boost::system::error_code& ec, std::size_t bytes_transferred) {
         
-    if (!error || error == boost::asio::error::message_size) {
+    if (!ec && bytes_transferred > 0) { 
     
-        //
-        // HERE IS WHERE I NEED TO DO A PRODUCER/CONSUMER EXCHANGE TO THE DEPTH BOOK WITH TRADE ORDERS
-        //
-        std::string newReceivedDataString(this->receiveBuffer.begin(), this->receiveBuffer.end());
-        this->receivedDataString += newReceivedDataString;
+        std::string newReceivedDataString(receiveBuffer.data(), bytes_transferred);
         
-        if(bytes_transferred < UDBBufferSize) { //when < buff size then all data has been received
+//        receivedDataString += newReceivedDataString;
+        receivedDataString = newReceivedDataString;
+        
+//        if(bytes_transferred < UDBBufferSize) { //when < buff size then all data has been received
         
             UDPServer::parseInputBuffer();
-        }
+//        }
         
-        this->receiveBuffer.fill(' ');
-        start_receive(); //start listening for the next request
+//        receiveBuffer.fill(' ');
+        start_receive(); //start listening for the next packet
+    }
+    else if (ec) {
+        std::cerr << "Receive failed: " << ec.message() << std::endl;
     }
 }
 
+void UDPServer::parseInputBuffer() {
+    
+    // XX\U00000001X\U00000001X\U00000001
+    // \U00000001
+    
+    receivedDataString.erase(
+        remove(receivedDataString.begin(), receivedDataString.end(), ' '), receivedDataString.end()
+    ); //remove spaces
+    
+    if(receivedDataString == "X") {
+        std::string substring = "X"; //remove header data, seems to send 4 single X chars first
+        size_t pos = receivedDataString.find(substring);
+        if (pos != std::string::npos) {
+             receivedDataString.erase(pos, substring.length());
+        }
+    }
+    
+    std::string substring = "\U00000001"; //remove header data
+    size_t pos = receivedDataString.find(substring);
+    if (pos != std::string::npos) {
+         receivedDataString.erase(pos, substring.length());
+    }
+    
+    std::vector<std::string> parsedOrderStringVector = split(receivedDataString, '\n'); //convert to a vector by parsing newline char
+
+//TODO handle when UDP sends partial strings!!
+    //check if last vector item has proper elements!!
+//    std::string lastElement = parsedOrderStringVector.back();
+//    std::vector<std::string> testStringVector = split(lastElement, ',');
+//    if(testStringVector[0] == "N" && testStringVector.size() != 7) {
+//        
+//    }
+//    else if(testStringVector[0] == "C" && testStringVector.size() != 3) {
+//        
+//    }
+    
+    // lock the mutex before modifying the shared vector
+    {
+        std::lock_guard<std::mutex> lock(mutexServer);
+//        orderVector = parsedVectorOrderStringVector;
+        orderVector.insert(orderVector.end(), parsedOrderStringVector.begin(), parsedOrderStringVector.end());
+    }
+    
+}
+    
 std::vector<std::string> UDPServer::split(const std::string &s, char delim) {
     
     std::vector<std::string> elems;
@@ -67,43 +116,8 @@ std::vector<std::string> UDPServer::split(const std::string &s, char delim) {
 
 std::vector<std::string> UDPServer::getOrderVector() {
     
-    return this->orderVector;
+    std::lock_guard<std::mutex> lock(mutexServer);
+    std::vector<std::string> currentOrderVector = orderVector;
+    orderVector.clear();
+    return currentOrderVector;
 }
-
-void UDPServer::clearOrderVector() {
-    
-    std::mutex mutexOrderVector;
-    std::unique_lock<std::mutex> threadLock(mutexOrderVector);
-    
-    this->orderVector.clear();
-    
-    threadLock.unlock();
-}
-
-void UDPServer::parseInputBuffer() {
-    
-    std::mutex mutexOrderVector;
-    std::unique_lock<std::mutex> threadLock(mutexOrderVector);
-  
-    remove(this->receivedDataString.begin(), this->receivedDataString.end(), ' '); //remove spaces
-    
-    std::vector<std::string> parsedVectorOrderString = split(this->receivedDataString, '\n');
-  
-    this->orderVector = parsedVectorOrderString;
-    
-    threadLock.unlock();
-        
-}
-    
-
-//void udp_session::handle_request(const boost::system::error_code& error)
-//{
-//    if (!error || error == boost::asio::error::message_size)
-//    {
-//     //   message = make_daytime_string(); // let's assume this might be slow
-//
-//        // let the server coordinate actual IO
-//     //   server_->enqueue_response(shared_from_this());
-//    }
-//}
-

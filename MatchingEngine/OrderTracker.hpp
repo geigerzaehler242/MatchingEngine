@@ -2,25 +2,26 @@
 //  OrderTracker.hpp
 //  MatchingEngine
 //
-//  Created by fernando marto on 2021-01-20.
+//  
 //
 
 #ifndef OrderTracker_hpp
 #define OrderTracker_hpp
 
 #include <iostream>
+#include <cstdint>
 //#include <stdio.h>
 
 typedef std::string OrderSymbol;
-typedef uint32_t UserId;
-typedef uint32_t OrderId;
-typedef uint32_t Price;
-typedef uint32_t Quantity;
-typedef uint32_t Cost;
-typedef uint32_t FillId;
-typedef uint32_t ChangeId;
-typedef uint32_t TransId;
-typedef uint32_t OrderConditions;
+typedef std::uint32_t UserId;
+typedef std::uint32_t OrderId;
+typedef std::uint32_t Price;
+typedef std::uint32_t Quantity;
+typedef std::uint32_t Cost;
+typedef std::uint32_t FillId;
+typedef std::uint32_t ChangeId;
+typedef std::uint32_t TransId;
+typedef std::uint32_t OrderConditions;
 
 static const int DecimalFactor = 1; //use 100 when having to account for decimal prices!!
 

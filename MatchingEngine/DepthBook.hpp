@@ -2,7 +2,7 @@
 //  DepthBook.hpp
 //  MatchingEngine
 //
-//  Created by fernando marto on 2021-01-20.
+//  
 //
 
 #ifndef DepthBook_hpp
@@ -10,7 +10,10 @@
 
 //#include <stdio.h>
 #include <thread>
+#include <mutex>
+#include <climits>
 #include <map>
+#include <memory>
 #include "OrderTracker.hpp"
 
 class DepthBook {
@@ -33,13 +36,13 @@ public:
 
     void matchingEngine(OrderSymbol const& targetTicker);
     
-    void printOrderCancel(UserId userId, OrderId orderId);
+    void printOrderCancel(UserId userId, OrderId orderId, OrderSymbol orderSymbol);
     
-    void printOrderChange(UserId userId, OrderId orderId);
+    void printOrderChange(UserId userId, OrderId orderId, OrderSymbol orderSymbol);
     
-    void printOrderFill(UserId userIdBuy, OrderId userOrderIdBuy, UserId userIdSell, OrderId userOrderIdSell, Quantity quantity, Price price);
+    void printOrderFill(UserId userIdBuy, OrderId userOrderIdBuy, UserId userIdSell, OrderId userOrderIdSell, Quantity quantity, Price price, OrderSymbol orderSymbol);
     
-    void printTOBChange(Quantity quantity, Price price, OrderType orderType);
+    void printTOBChange(Quantity quantity, Price price, OrderType orderType, OrderSymbol orderSymbol);
     
 //    void enableDepthBook(OrderSymbol tickerSymbol);
 //

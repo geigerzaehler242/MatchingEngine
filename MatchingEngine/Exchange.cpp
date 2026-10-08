@@ -2,7 +2,7 @@
 //  Exchange.cpp
 //  MatchingEngine
 //
-//  Created by fernando marto on 2021-01-21.
+//  
 //
 
 #include "Exchange.hpp"
@@ -14,7 +14,7 @@ Exchange::Exchange(bool enableExchange) : exchangeEnabled(enableExchange) {};
     void Exchange::addDepthBook(OrderSymbol orderSymbol) {
 
         std::shared_ptr<DepthBook> pDepthBook = std::make_shared<DepthBook>(orderSymbol);
-        pDepthBook->enableDepthBook(orderSymbol);
+//        pDepthBook->enableDepthBook(orderSymbol);
         
         depthBookMap[orderSymbol] = pDepthBook;
         
@@ -22,7 +22,7 @@ Exchange::Exchange(bool enableExchange) : exchangeEnabled(enableExchange) {};
 
     void Exchange::deleteDepthBook(OrderSymbol orderSymbol) {
 
-        depthBookMap[orderSymbol]->closeDepthBook(orderSymbol);
+//        depthBookMap[orderSymbol]->closeDepthBook(orderSymbol);
         depthBookMap[orderSymbol].reset();
 
     }
@@ -30,6 +30,8 @@ Exchange::Exchange(bool enableExchange) : exchangeEnabled(enableExchange) {};
     void Exchange::exchangeMatchingEngine() {
 
         while(exchangeEnabled) {
+            
+            std::unique_lock<std::mutex> threadLock(mutexExchange); //protect if order Queue get flushed
             
             while(orderQueue.size() > 0) {
                 
@@ -44,12 +46,14 @@ Exchange::Exchange(bool enableExchange) : exchangeEnabled(enableExchange) {};
                 
                 depthBookMap[symbol]->matchingEngine(symbol); //check for order match on depth book
             }
-        }
+            threadLock.unlock();        }
+        
+        std::cout << "Matching Engine stopped." << std::endl;
     }
 
     void Exchange::enterOrder(std::vector<std::string> orderCommand) {
 
-        std::unique_lock<std::mutex> threadLock(mutexExchange);
+//        std::unique_lock<std::mutex> threadLock(mutexExchange);
         
         OrderId userOrderId = stoi( orderCommand[PlaceOrderKey::userOrderId] );
         Price price = stoi( orderCommand[PlaceOrderKey::price] );
@@ -60,7 +64,7 @@ Exchange::Exchange(bool enableExchange) : exchangeEnabled(enableExchange) {};
 
         std::shared_ptr<OrderTracker> pNewOrder = std::make_shared<OrderTracker>(userOrderId, price, quantity, side, symbol, userId);
         
-        if(depthBookMap.find(orderCommand[PlaceOrderKey::symbol]) == depthBookMap.end()) {
+        if(depthBookMap.find(orderCommand[PlaceOrderKey::symbol]) == depthBookMap.end()) { //create depth book for a symbol if it doesnt already exist
             addDepthBook(orderCommand[PlaceOrderKey::symbol]);
         }
 
@@ -96,10 +100,7 @@ Exchange::Exchange(bool enableExchange) : exchangeEnabled(enableExchange) {};
         
         this->activeOrdersMap.clear();
         
-        while (!this->orderQueue.empty())
-        {
-            this->orderQueue.pop();
-        }
+        orderQueue = {};
         
 //        threadLock.unlock();
     }

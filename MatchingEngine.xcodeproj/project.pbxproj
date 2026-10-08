@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,6 +31,10 @@
 		ED15A347256D9312005F7008 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		ED15A395257D582B005F7008 /* UDPServer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UDPServer.cpp; sourceTree = "<group>"; };
 		ED15A396257D582B005F7008 /* UDPServer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UDPServer.hpp; sourceTree = "<group>"; };
+		ED5E001127517185003303DF /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		ED5E001227517185003303DF /* inputFile.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = inputFile.csv; sourceTree = "<group>"; };
+		ED5E001327517185003303DF /* dockerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = dockerfile; sourceTree = "<group>"; };
+		EDD206B83077CE2800AD3E55 /* entrypoint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = entrypoint.sh; sourceTree = "<group>"; };
 		EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OrderTracker.cpp; sourceTree = "<group>"; };
 		EDED4C9C25B9064700B086A5 /* OrderTracker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrderTracker.hpp; sourceTree = "<group>"; };
 		EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthBook.cpp; sourceTree = "<group>"; };
@@ -69,6 +73,9 @@
 		ED15A346256D9312005F7008 /* MatchingEngine */ = {
 			isa = PBXGroup;
 			children = (
+				ED5E001127517185003303DF /* CMakeLists.txt */,
+				ED5E001327517185003303DF /* dockerfile */,
+				ED5E001227517185003303DF /* inputFile.csv */,
 				ED15A347256D9312005F7008 /* main.cpp */,
 				EDED4CA525BA348000B086A5 /* Exchange.cpp */,
 				EDED4CA625BA348000B086A5 /* Exchange.hpp */,
@@ -78,6 +85,7 @@
 				EDED4C9C25B9064700B086A5 /* OrderTracker.hpp */,
 				ED15A395257D582B005F7008 /* UDPServer.cpp */,
 				ED15A396257D582B005F7008 /* UDPServer.hpp */,
+				EDD206B83077CE2800AD3E55 /* entrypoint.sh */,
 			);
 			path = MatchingEngine;
 			sourceTree = "<group>";
@@ -108,7 +116,8 @@
 		ED15A33C256D9312005F7008 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					ED15A343256D9312005F7008 = {
 						CreatedOnToolsVersion = 12.2;
@@ -183,14 +192,18 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Z79254QWB6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu23;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"USE_XCODE=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
@@ -200,11 +213,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
@@ -242,21 +256,26 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Z79254QWB6;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu23;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "USE_XCODE=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Release;
 		};
@@ -265,9 +284,9 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z79254QWB6;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				"HEADER_SEARCH_PATHS[arch=*]" = /usr/local/Cellar/boost/1.74.0/include/;
+				"HEADER_SEARCH_PATHS[arch=*]" = /opt/homebrew/Cellar/boost/1.92.0/include/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -277,9 +296,9 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z79254QWB6;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				"HEADER_SEARCH_PATHS[arch=*]" = /usr/local/Cellar/boost/1.74.0/include/;
+				"HEADER_SEARCH_PATHS[arch=*]" = /opt/homebrew/Cellar/boost/1.92.0/include/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

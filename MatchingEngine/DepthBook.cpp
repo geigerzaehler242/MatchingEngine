@@ -2,7 +2,7 @@
 //  DepthBook.cpp
 //  MatchingEngine
 //
-//  Created by fernando marto on 2021-01-20.
+//  
 //
 
 #include "DepthBook.hpp"
@@ -17,7 +17,7 @@
         
         Price price = pTradeOrder->getOrderPrice();
         
-        auto[buyPriceTOB,buyQuantityTOB,sellPriceTOB,sellQuantityTOB] = getTOB();
+        auto[buyPriceTOB,buyQuantityTOB,sellPriceTOB,sellQuantityTOB] = getTOB(); //get TOB tupple
         
         switch(pTradeOrder->getOrderType()) {
                 
@@ -25,25 +25,25 @@
                 Bids.insert( std::pair<Price, std::shared_ptr<OrderTracker>>(pTradeOrder->getOrderPrice(), pTradeOrder) );
                 
                 if(price > buyPriceTOB) {
-                    printTOBChange(pTradeOrder->getOrderQuantity(), price, buy);
+                    printTOBChange(pTradeOrder->getOrderQuantity(), price, buy, pTradeOrder->getSymbol());
                 } else if(price == buyPriceTOB) {
-                    printTOBChange(pTradeOrder->getOrderQuantity() + buyQuantityTOB, buyPriceTOB, buy);
+                    printTOBChange(pTradeOrder->getOrderQuantity() + buyQuantityTOB, buyPriceTOB, buy, pTradeOrder->getSymbol());
                 }
                 break;
             case sell:
                 Asks.insert( std::pair<Price, std::shared_ptr<OrderTracker>>(pTradeOrder->getOrderPrice(), pTradeOrder) );
                 if(price < sellPriceTOB) {
-                    printTOBChange(pTradeOrder->getOrderQuantity(), price, sell);
+                    printTOBChange(pTradeOrder->getOrderQuantity(), price, sell, pTradeOrder->getSymbol());
                 } else if(price == sellPriceTOB) {
-                    printTOBChange(pTradeOrder->getOrderQuantity() + sellQuantityTOB, sellPriceTOB, sell);
+                    printTOBChange(pTradeOrder->getOrderQuantity() + sellQuantityTOB, sellPriceTOB, sell, pTradeOrder->getSymbol());
                 }
                 break;
             case shortSell:
                 Asks.insert( std::pair<Price, std::shared_ptr<OrderTracker>>(pTradeOrder->getOrderPrice(), pTradeOrder) );
                 if(price < sellPriceTOB) {
-                    printTOBChange(pTradeOrder->getOrderQuantity(), price, shortSell);
+                    printTOBChange(pTradeOrder->getOrderQuantity(), price, shortSell, pTradeOrder->getSymbol());
                 } else if(price == sellPriceTOB) {
-                    printTOBChange(pTradeOrder->getOrderQuantity() + sellQuantityTOB, sellPriceTOB, shortSell);
+                    printTOBChange(pTradeOrder->getOrderQuantity() + sellQuantityTOB, sellPriceTOB, shortSell, pTradeOrder->getSymbol());
                 }
                 break;
             default:
@@ -126,14 +126,14 @@
                     
                     if(pBids->second->getOrderId() == pTradeOrder->getOrderId() &&
                        pBids->second->getUserId() == pTradeOrder->getUserId() ) {
+                        printOrderCancel(pBids->second->getUserId(), pBids->second->getOrderId(), pBids->second->getSymbol());
                         Bids.erase(pBids);
-                        printOrderCancel(pBids->second->getUserId(), pBids->second->getOrderId());
                         break;
                     }
                 }
                 
                 if(price == buyPriceTOB) {
-                    printTOBChange(buyQuantityTOB - pTradeOrder->getOrderQuantity(), buyPriceTOB, buy);
+                    printTOBChange(buyQuantityTOB - pTradeOrder->getOrderQuantity(), buyPriceTOB, buy, pTradeOrder->getSymbol());
                 }
                 
                 break;
@@ -144,14 +144,14 @@
                     
                     if(pAsks->second->getOrderId() == pTradeOrder->getOrderId() &&
                        pAsks->second->getUserId() == pTradeOrder->getUserId() ) {
+                        printOrderCancel(pAsks->second->getUserId(), pAsks->second->getOrderId(), pTradeOrder->getSymbol());
                         Asks.erase(pAsks);
-                        printOrderCancel(pAsks->second->getUserId(), pAsks->second->getOrderId());
                         break;
                     }
                 }
                 
                 if(price == sellPriceTOB) {
-                    printTOBChange(sellQuantityTOB - pTradeOrder->getOrderQuantity(), sellPriceTOB, sell);
+                    printTOBChange(sellQuantityTOB - pTradeOrder->getOrderQuantity(), sellPriceTOB, sell, pTradeOrder->getSymbol());
                 }
                 break;
                 
@@ -161,14 +161,14 @@
                     
                     if(pAsks->second->getOrderId() == pTradeOrder->getOrderId() &&
                        pAsks->second->getUserId() == pTradeOrder->getUserId() ) {
+                        printOrderCancel(pAsks->second->getUserId(), pAsks->second->getOrderId(), pTradeOrder->getSymbol());
                         Asks.erase(pAsks);
-                        printOrderCancel(pAsks->second->getUserId(), pAsks->second->getOrderId());
                         break;
                     }
                 }
                 
                 if(price == sellPriceTOB) {
-                    printTOBChange(sellQuantityTOB - pTradeOrder->getOrderQuantity(), sellPriceTOB, shortSell);
+                    printTOBChange(sellQuantityTOB - pTradeOrder->getOrderQuantity(), sellPriceTOB, shortSell, pTradeOrder->getSymbol());
                 }
                 break;
                 
@@ -199,19 +199,19 @@
                     if(pBids->second->getOrderId() == pTradeOrder->getOrderId()) {
                         
                         if(price > buyPriceTOB) {
-                            printTOBChange(pTradeOrder->getOrderQuantity(), newPrice, buy);
+                            printTOBChange(pTradeOrder->getOrderQuantity(), newPrice, buy, pTradeOrder->getSymbol());
                         } else if(price == buyPriceTOB) {
                             if(newQuantity < pBids->second->getOrderQuantity()) {
-                                printTOBChange(buyQuantityTOB - (pBids->second->getOrderQuantity() - newQuantity), buyPriceTOB, buy);
+                                printTOBChange(buyQuantityTOB - (pBids->second->getOrderQuantity() - newQuantity), buyPriceTOB, buy, pTradeOrder->getSymbol());
                             }
                             else {
-                                printTOBChange(buyQuantityTOB + (pBids->second->getOrderQuantity() - newQuantity), buyPriceTOB, buy);
+                                printTOBChange(buyQuantityTOB + (pBids->second->getOrderQuantity() - newQuantity), buyPriceTOB, buy, pTradeOrder->getSymbol());
                             }
                         }
                         
                         pBids->second->setOrderPrice(newPrice);
                         pBids->second->setOrderQuantity(newQuantity);
-                        printOrderChange(pBids->second->getUserId(), pBids->second->getOrderId());
+                        printOrderChange(pBids->second->getUserId(), pBids->second->getOrderId(), pTradeOrder->getSymbol());
                         break;
                     }
                 }
@@ -224,19 +224,19 @@
                     if(pAsks->second->getOrderId() == pTradeOrder->getOrderId()) {
                         
                         if(price < sellPriceTOB) {
-                            printTOBChange(pTradeOrder->getOrderQuantity(), newPrice, sell);
+                            printTOBChange(pTradeOrder->getOrderQuantity(), newPrice, sell, pTradeOrder->getSymbol());
                         } else if(price == sellPriceTOB) {
                             if(newQuantity < pBids->second->getOrderQuantity()) {
-                                printTOBChange(sellQuantityTOB - (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, sell);
+                                printTOBChange(sellQuantityTOB - (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, sell, pTradeOrder->getSymbol());
                             }
                             else {
-                                printTOBChange(sellQuantityTOB + (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, sell);
+                                printTOBChange(sellQuantityTOB + (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, sell, pTradeOrder->getSymbol());
                             }
                         }
                         
                         pAsks->second->setOrderPrice(newPrice);
                         pAsks->second->setOrderQuantity(newQuantity);
-                        printOrderChange(pAsks->second->getUserId(), pAsks->second->getOrderId());
+                        printOrderChange(pAsks->second->getUserId(), pAsks->second->getOrderId(), pTradeOrder->getSymbol());
                         break;
                     }
                 }
@@ -249,19 +249,19 @@
                     if(pAsks->second->getOrderId() == pTradeOrder->getOrderId()) {
                         
                         if(price < sellPriceTOB) {
-                            printTOBChange(pTradeOrder->getOrderQuantity(), newPrice, shortSell);
+                            printTOBChange(pTradeOrder->getOrderQuantity(), newPrice, shortSell, pTradeOrder->getSymbol());
                         } else if(price == sellPriceTOB) {
                             if(newQuantity < pBids->second->getOrderQuantity()) {
-                                printTOBChange(sellQuantityTOB - (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, shortSell);
+                                printTOBChange(sellQuantityTOB - (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, shortSell, pTradeOrder->getSymbol());
                             }
                             else {
-                                printTOBChange(sellQuantityTOB + (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, shortSell);
+                                printTOBChange(sellQuantityTOB + (pAsks->second->getOrderQuantity() - newQuantity), sellPriceTOB, shortSell, pTradeOrder->getSymbol());
                             }
                         }
                         
                         pAsks->second->setOrderPrice(newPrice);
                         pAsks->second->setOrderQuantity(newQuantity);
-                        printOrderChange(pAsks->second->getUserId(), pAsks->second->getOrderId());
+                        printOrderChange(pAsks->second->getUserId(), pAsks->second->getOrderId(), pTradeOrder->getSymbol());
                         break;
                     }
                 }
@@ -289,15 +289,17 @@
 //////////////////////////
 //std::this_thread::sleep_for(std::chrono::nanoseconds(1000000)); //temporary time limiter for debugging!!
 //////////////////////////
-//            std::unique_lock<std::mutex> threadLock(mutexDepthBook);
+            std::unique_lock<std::mutex> threadLock(mutexDepthBook);
             
-//            std::cout << "looking for match..." << std::endl;
+            
             pBids = Bids.begin();
             pAsks = Asks.begin();
+        
+            std::cout << "looking for TOB match for: " << pBids->second->getSymbol() << std::endl;
 
             if(pBids->first == pAsks->first && Bids.size() != 0 && Asks.size() != 0) {
                 
-//                std::cout << "found match" << std::endl;
+//                std::cout << "found TOB match" << std::endl;
                 
                 if(pBids->second->getOrderQuantity() < pAsks->second->getOrderQuantity()) { //BID size < ASK size
                     Quantity currentBidQuantity = pBids->second->getOrderQuantity();
@@ -309,8 +311,8 @@
                     
                     Price fillPrice = pBids->second->getOrderPrice();
                     pBids->second->setOrderFilled(true);
+                    printOrderFill(pBids->second->getUserId(), pBids->second->getOrderId(), pAsks->second->getUserId(), pAsks->second->getOrderId(), currentBidQuantity, fillPrice, pAsks->second->getSymbol());
                     Bids.erase(pBids);
-                    printOrderFill(pBids->second->getUserId(), pBids->second->getOrderId(), pAsks->second->getUserId(), pAsks->second->getOrderId(), currentBidQuantity, fillPrice);
                 }
                 else if(pBids->second->getOrderQuantity() > pAsks->second->getOrderQuantity() ) { //BID size > ASK size
                     Quantity currentAskQuantity = pAsks->second->getOrderQuantity();
@@ -322,8 +324,8 @@
                     
                     Price fillPrice = pBids->second->getOrderPrice();
                     pAsks->second->setOrderFilled(true);
+                    printOrderFill(pBids->second->getUserId(), pBids->second->getOrderId(), pAsks->second->getUserId(), pAsks->second->getOrderId(), currentAskQuantity, fillPrice, pAsks->second->getSymbol());
                     Asks.erase(pAsks);
-                    printOrderFill(pBids->second->getUserId(), pBids->second->getOrderId(), pAsks->second->getUserId(), pAsks->second->getOrderId(), currentAskQuantity, fillPrice);
                 }
                 else { //BID size = ASK size
                     Quantity currentBidAskQuantity = pAsks->second->getOrderQuantity();
@@ -333,9 +335,9 @@
                     Price fillPrice = pBids->second->getOrderPrice();
                     pBids->second->setOrderFilled(true);
                     pAsks->second->setOrderFilled(true);
+                    printOrderFill(pBids->second->getUserId(), pBids->second->getOrderId(), pAsks->second->getUserId(), pAsks->second->getOrderId(), currentBidAskQuantity, fillPrice, pAsks->second->getSymbol());
                     Bids.erase(pBids);
                     Asks.erase(pAsks);
-                    printOrderFill(pBids->second->getUserId(), pBids->second->getOrderId(), pAsks->second->getUserId(), pAsks->second->getOrderId(), currentBidAskQuantity, fillPrice);
                 }
             
             } //if
@@ -343,7 +345,7 @@
 //        } //while
     }
     
-    void DepthBook::printOrderCancel(UserId userId, OrderId orderId) {
+    void DepthBook::printOrderCancel(UserId userId, OrderId orderId, OrderSymbol orderSymbol) {
         
         std::thread tPrintService([&] {
             std::cout << "A, " << userId << ", " << orderId << std::endl;
@@ -352,7 +354,7 @@
         tPrintService.join();
     }
     
-    void DepthBook::printOrderChange(UserId userId, OrderId orderId) {
+    void DepthBook::printOrderChange(UserId userId, OrderId orderId, OrderSymbol orderSymbol) {
     
         std::thread tPrintService([&] {
             std::cout << "A, " << userId << ", " << orderId << std::endl;
@@ -361,22 +363,22 @@
         tPrintService.join();
     }
     
-    void DepthBook::printOrderFill(UserId userIdBuy, OrderId userOrderIdBuy, UserId userIdSell, OrderId userOrderIdSell, Quantity quantity, Price price) {
-        
+    void DepthBook::printOrderFill(UserId userIdBuy, OrderId userOrderIdBuy, UserId userIdSell, OrderId userOrderIdSell, Quantity quantity, Price price, OrderSymbol orderSymbol) {
         
         std::thread tPrintService([&] {
-            std::cout << "T, " << userIdBuy << ", " << userOrderIdBuy << ", " << userIdSell << ", " << userOrderIdSell << ", " << price << ", " << quantity << std::endl;
+            std::cout << "Trade Fill" << std::endl;
+            std::cout << "T, " << userIdBuy << ", " << userOrderIdBuy << ", " << userIdSell << ", " << userOrderIdSell << ", $" << price << ", " << quantity << ", " << orderSymbol << std::endl;
         });
         
         tPrintService.join();
         
     }
     
-    void DepthBook::printTOBChange(Quantity quantity, Price price, OrderType orderType) {
+    void DepthBook::printTOBChange(Quantity quantity, Price price, OrderType orderType, OrderSymbol orderSymbol) {
         
         std::thread tPrintService([&] {
             std::string side = (orderType == buy) ? "B" : "S";
-            std::cout << "B, " << side << ", " << price << ", " << quantity << std::endl;
+            std::cout << "TOB Change, " << side << ", $" << price << ", " << quantity << ", " << orderSymbol << std::endl;
         });
         
         tPrintService.join();
