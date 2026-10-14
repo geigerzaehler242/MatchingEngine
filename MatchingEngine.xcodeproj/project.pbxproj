@@ -3,12 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		ED15A348256D9312005F7008 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED15A347256D9312005F7008 /* main.cpp */; };
 		ED15A397257D582B005F7008 /* UDPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED15A395257D582B005F7008 /* UDPServer.cpp */; };
+		EDAA1360307EDE9600F23DE9 /* Exchange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA525BA348000B086A5 /* Exchange.cpp */; };
+		EDAA1361307EDEAB00F23DE9 /* DepthBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */; };
+		EDAA1362307EDEB200F23DE9 /* OrderTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */; };
 		EDED4C9D25B9064700B086A5 /* OrderTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */; };
 		EDED4CA325B90DDB00B086A5 /* DepthBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */; };
 		EDED4CA725BA348000B086A5 /* Exchange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA525BA348000B086A5 /* Exchange.cpp */; };
@@ -16,6 +19,15 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		ED15A342256D9312005F7008 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		EDD206BB307816C100AD3E55 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -34,7 +46,9 @@
 		ED5E001127517185003303DF /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		ED5E001227517185003303DF /* inputFile.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = inputFile.csv; sourceTree = "<group>"; };
 		ED5E001327517185003303DF /* dockerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = dockerfile; sourceTree = "<group>"; };
+		EDAA135F307D929100F23DE9 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		EDD206B83077CE2800AD3E55 /* entrypoint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = entrypoint.sh; sourceTree = "<group>"; };
+		EDD206BD307816C100AD3E55 /* MatchingEngineTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MatchingEngineTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OrderTracker.cpp; sourceTree = "<group>"; };
 		EDED4C9C25B9064700B086A5 /* OrderTracker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrderTracker.hpp; sourceTree = "<group>"; };
 		EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthBook.cpp; sourceTree = "<group>"; };
@@ -43,8 +57,19 @@
 		EDED4CA625BA348000B086A5 /* Exchange.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Exchange.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EDD206BE307816C100AD3E55 /* MatchingEngineTest */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MatchingEngineTest; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		ED15A341256D9312005F7008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDD206BA307816C100AD3E55 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -57,7 +82,11 @@
 		ED15A33B256D9312005F7008 = {
 			isa = PBXGroup;
 			children = (
+				EDAA135F307D929100F23DE9 /* CMakeLists.txt */,
+				ED5E001327517185003303DF /* dockerfile */,
+				ED5E001227517185003303DF /* inputFile.csv */,
 				ED15A346256D9312005F7008 /* MatchingEngine */,
+				EDD206BE307816C100AD3E55 /* MatchingEngineTest */,
 				ED15A345256D9312005F7008 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				ED15A344256D9312005F7008 /* MatchingEngine */,
+				EDD206BD307816C100AD3E55 /* MatchingEngineTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -74,8 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				ED5E001127517185003303DF /* CMakeLists.txt */,
-				ED5E001327517185003303DF /* dockerfile */,
-				ED5E001227517185003303DF /* inputFile.csv */,
 				ED15A347256D9312005F7008 /* main.cpp */,
 				EDED4CA525BA348000B086A5 /* Exchange.cpp */,
 				EDED4CA625BA348000B086A5 /* Exchange.hpp */,
@@ -110,6 +138,28 @@
 			productReference = ED15A344256D9312005F7008 /* MatchingEngine */;
 			productType = "com.apple.product-type.tool";
 		};
+		EDD206BC307816C100AD3E55 /* MatchingEngineTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDD206C1307816C100AD3E55 /* Build configuration list for PBXNativeTarget "MatchingEngineTest" */;
+			buildPhases = (
+				EDD206B9307816C100AD3E55 /* Sources */,
+				EDD206BA307816C100AD3E55 /* Frameworks */,
+				EDD206BB307816C100AD3E55 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				EDD206BE307816C100AD3E55 /* MatchingEngineTest */,
+			);
+			name = MatchingEngineTest;
+			packageProductDependencies = (
+			);
+			productName = MatchingEngineTest;
+			productReference = EDD206BD307816C100AD3E55 /* MatchingEngineTest */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -121,6 +171,9 @@
 				TargetAttributes = {
 					ED15A343256D9312005F7008 = {
 						CreatedOnToolsVersion = 12.2;
+					};
+					EDD206BC307816C100AD3E55 = {
+						CreatedOnToolsVersion = 27.0;
 					};
 				};
 			};
@@ -138,6 +191,7 @@
 			projectRoot = "";
 			targets = (
 				ED15A343256D9312005F7008 /* MatchingEngine */,
+				EDD206BC307816C100AD3E55 /* MatchingEngineTest */,
 			);
 		};
 /* End PBXProject section */
@@ -155,6 +209,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EDD206B9307816C100AD3E55 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDAA1360307EDE9600F23DE9 /* Exchange.cpp in Sources */,
+				EDAA1362307EDEB200F23DE9 /* OrderTracker.cpp in Sources */,
+				EDAA1361307EDEAB00F23DE9 /* DepthBook.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -164,7 +228,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -228,7 +292,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -303,6 +367,46 @@
 			};
 			name = Release;
 		};
+		EDD206C2307816C100AD3E55 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7ZP96KCCY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu23;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/include/**";
+				LIBRARY_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/lib/**";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				OTHER_LDFLAGS = "\"-lgtest\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		EDD206C3307816C100AD3E55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7ZP96KCCY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu23;
+				HEADER_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/include/**";
+				LIBRARY_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/lib/**";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				OTHER_LDFLAGS = "\"-lgtest\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -320,6 +424,15 @@
 			buildConfigurations = (
 				ED15A34C256D9312005F7008 /* Debug */,
 				ED15A34D256D9312005F7008 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EDD206C1307816C100AD3E55 /* Build configuration list for PBXNativeTarget "MatchingEngineTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDD206C2307816C100AD3E55 /* Debug */,
+				EDD206C3307816C100AD3E55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
