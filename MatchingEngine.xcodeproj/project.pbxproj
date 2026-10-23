@@ -12,6 +12,7 @@
 		EDAA1360307EDE9600F23DE9 /* Exchange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA525BA348000B086A5 /* Exchange.cpp */; };
 		EDAA1361307EDEAB00F23DE9 /* DepthBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */; };
 		EDAA1362307EDEB200F23DE9 /* OrderTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */; };
+		EDD5FCA030857F5000388F35 /* docker-compose.yml in Sources */ = {isa = PBXBuildFile; fileRef = EDD5FC9F30857F4800388F35 /* docker-compose.yml */; };
 		EDED4C9D25B9064700B086A5 /* OrderTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */; };
 		EDED4CA325B90DDB00B086A5 /* DepthBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */; };
 		EDED4CA725BA348000B086A5 /* Exchange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED4CA525BA348000B086A5 /* Exchange.cpp */; };
@@ -49,6 +50,7 @@
 		EDAA135F307D929100F23DE9 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		EDD206B83077CE2800AD3E55 /* entrypoint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = entrypoint.sh; sourceTree = "<group>"; };
 		EDD206BD307816C100AD3E55 /* MatchingEngineTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MatchingEngineTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDD5FC9F30857F4800388F35 /* docker-compose.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "docker-compose.yml"; sourceTree = "<group>"; };
 		EDED4C9B25B9064700B086A5 /* OrderTracker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OrderTracker.cpp; sourceTree = "<group>"; };
 		EDED4C9C25B9064700B086A5 /* OrderTracker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OrderTracker.hpp; sourceTree = "<group>"; };
 		EDED4CA125B90DDB00B086A5 /* DepthBook.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DepthBook.cpp; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				EDAA135F307D929100F23DE9 /* CMakeLists.txt */,
 				ED5E001327517185003303DF /* dockerfile */,
+				EDD5FC9F30857F4800388F35 /* docker-compose.yml */,
 				ED5E001227517185003303DF /* inputFile.csv */,
 				ED15A346256D9312005F7008 /* MatchingEngine */,
 				EDD206BE307816C100AD3E55 /* MatchingEngineTest */,
@@ -167,13 +170,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2700;
+				LastUpgradeCheck = 2710;
 				TargetAttributes = {
 					ED15A343256D9312005F7008 = {
 						CreatedOnToolsVersion = 12.2;
 					};
 					EDD206BC307816C100AD3E55 = {
 						CreatedOnToolsVersion = 27.0;
+						LastSwiftMigration = 2710;
 					};
 				};
 			};
@@ -214,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDAA1360307EDE9600F23DE9 /* Exchange.cpp in Sources */,
+				EDD5FCA030857F5000388F35 /* docker-compose.yml in Sources */,
 				EDAA1362307EDEB200F23DE9 /* OrderTracker.cpp in Sources */,
 				EDAA1361307EDEAB00F23DE9 /* DepthBook.cpp in Sources */,
 			);
@@ -267,7 +272,6 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"USE_XCODE=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
@@ -281,6 +285,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lrdkafka";
 				SDKROOT = macosx;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
@@ -328,7 +333,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu23;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "USE_XCODE=1";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -338,6 +343,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-lrdkafka";
 				SDKROOT = macosx;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
@@ -346,24 +352,62 @@
 		ED15A34C256D9312005F7008 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				"HEADER_SEARCH_PATHS[arch=*]" = /opt/homebrew/Cellar/boost/1.92.0/include/;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				HEADER_SEARCH_PATHS = (
+					/opt/homebrew/include,
+					"$(HOME)/Developer/CPP/modern-cpp-kafka/include",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
+				OTHER_LDFLAGS = "-lrdkafka";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = YES;
 			};
 			name = Debug;
 		};
 		ED15A34D256D9312005F7008 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				"HEADER_SEARCH_PATHS[arch=*]" = /opt/homebrew/Cellar/boost/1.92.0/include/;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				HEADER_SEARCH_PATHS = (
+					/opt/homebrew/include,
+					"$(HOME)/Developer/CPP/modern-cpp-kafka/include",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
+				OTHER_LDFLAGS = "-lrdkafka";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = YES;
 			};
 			name = Release;
 		};
@@ -371,20 +415,42 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				AUTOMATION_APPLE_EVENTS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M7ZP96KCCY;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu23;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/include/**";
-				LIBRARY_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/lib/**";
+				HEADER_SEARCH_PATHS = (
+					/opt/homebrew/include,
+					"$(HOME)/Developer/CPP/modern-cpp-kafka/include",
+				);
+				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				OTHER_LDFLAGS = "\"-lgtest\"";
+				OTHER_LDFLAGS = (
+					"\"-lgtest\"",
+					"\"-lrdkafka\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				SYSTEM_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -393,16 +459,37 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				AUTOMATION_APPLE_EVENTS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M7ZP96KCCY;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu23;
-				HEADER_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/include/**";
-				LIBRARY_SEARCH_PATHS = "/opt/homebrew/Cellar/googletest/1.18.0/lib/**";
+				HEADER_SEARCH_PATHS = (
+					/opt/homebrew/include,
+					"$(HOME)/Developer/CPP/modern-cpp-kafka/include",
+				);
+				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				OTHER_LDFLAGS = "\"-lgtest\"";
+				OTHER_LDFLAGS = (
+					"\"-lgtest\"",
+					"\"-lrdkafka\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = YES;
+				SWIFT_VERSION = 6.0;
 				SYSTEM_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;

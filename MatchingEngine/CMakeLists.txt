@@ -6,17 +6,18 @@ add_library(myMatchingEngineLib
     main.cpp DepthBook.cpp Exchange.cpp OrderTracker.cpp UDPServer.cpp
 )
 
-# Public include directory so consumers can #include "mylib/..."
+# Public include directory so consumers can #include headers from MatchingEngine/
 target_include_directories(myMatchingEngineLib
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# Link Boost (and any other libraries your sources need)
+# Link Boost + modern-cpp-kafka (which already pulls in librdkafka)
 target_link_libraries(myMatchingEngineLib
     PUBLIC
         Boost::system
         Boost::filesystem
+        modern-cpp-kafka
 )
 
 #create a binary to run

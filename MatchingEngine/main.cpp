@@ -12,16 +12,13 @@
 #include <chrono>
 #include <tuple>
 #include <limits.h>
+//#include <string>
 
-//BUILD SETTINGS
-// xcode targets -> Build Settings -> search paths -> /opt/homebrew/Cellar/boost/1.92.0/include/
-// preprocessor macro -> USE_XCODE=1
+#include <boost/asio.hpp>
+#include <librdkafka/rdkafkacpp.h>
+#include <kafka/KafkaProducer.h>
+#include <kafka/KafkaConsumer.h>
 
-#ifdef USE_XCODE
-#include "/opt/homebrew/Cellar/boost/1.92.0/include/boost/asio.hpp"
-#endif
-
-#include "boost/asio.hpp"
 #include "UDPServer.hpp"
 #include "OrderTracker.hpp" //#include <iostream>
 #include "DepthBook.hpp" //#include <map>
@@ -135,17 +132,98 @@ void runExchange(UDPServer &udpReceiver) {
     }
 }
 
+std::string getBrokers() {
+    const char* env = std::getenv("KAFKA_BROKERS"); // set to "kafka:9092" when run in docker container "docker compose up --build"
+    return env ? env : "localhost:9092";   // fallback to localhost if run with IDE or cmake
+}
+
 int main(int argc, const char * argv[]) {
 
 //cmake -B build
 //cmake --build build
 //cd build
 //./equityExchangeTest
+
     
 //docker build -t equityexchangetest .
+
+// run from command line in docker container which launches kafka
+// docker compose up --build
+    
     
 //to send the orders data to the matching engine
 //cat inputfile.csv | nc -u -v -w 1 127.0.0.1 1234
+
+//  brew services start kafka, brew services list
+//  brew services stop kafka
+    
+    //using namespace kafka;
+    //using namespace kafka::clients::producer;
+    //using namespace kafka::clients::consumer;
+    
+    
+    std::cout << "brokers ENV: " << getBrokers() << std::endl;
+    
+    const kafka::Properties propsConsumer({
+        {"bootstrap.servers",           {getBrokers()}},
+        {"group.id", {"my-group"}},
+        {"auto.offset.reset",   {"earliest"}},               // ← the important one
+        {"enable.auto.commit",  {"true"}}
+    });
+
+    kafka::clients::consumer::KafkaConsumer consumer(propsConsumer);
+    consumer.subscribe({"my-topic"});
+    
+    
+    
+    const kafka::Properties propsProducer({
+        {"bootstrap.servers",           {getBrokers()}},
+        {"enable.idempotence",          {"true"}},
+
+        // Fail after this many ms if the message cannot be delivered
+        {"message.timeout.ms",         {"5000"}},   // 5 seconds (default is 300000)
+
+        // Optional but useful extras
+        {"socket.timeout.ms",          {"3000"}},   // network request timeout
+//        {"request.timeout.ms",         {"3000"}},
+        {"socket.connection.setup.timeout.ms", {"3000"}}
+//        {"metadata.request.timeout.ms",{"3000"}},
+    });
+    
+    kafka::clients::producer::KafkaProducer producer(propsProducer);
+    std::string line = "Test kafka message to my-topic";
+    
+    kafka::clients::producer::ProducerRecord record("my-topic", kafka::NullKey, kafka::Value(line.data(), line.size()));
+
+    auto deliveryCallback = [](const kafka::clients::producer::RecordMetadata& metadata, const kafka::Error& error) {
+           if (!error) {
+               std::cout << "Delivered: " << metadata.toString() << std::endl;
+           } else {
+               std::cerr << "Failed: " << error.message() << std::endl;
+           }
+       };
+    
+    producer.send(record, deliveryCallback);
+    
+    
+    
+    
+    
+//    while (true) {
+//        auto records = consumer.poll(std::chrono::milliseconds(1000));
+//        for (const auto& record : records) {
+//            if (!record.error()) {
+//                std::cout << "Got: " << record.value().toString() << std::endl;
+//                break;
+//            }
+//        }
+//    }
+    
+    
+    
+    
+    
+    producer.close();  // optional
     
     try {
         

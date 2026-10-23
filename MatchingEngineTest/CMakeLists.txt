@@ -8,7 +8,7 @@ add_executable(unit_tests
 target_link_libraries(unit_tests
     PRIVATE
         myMatchingEngineLib
-        GTest::gtest   # provides main(); use GTest::gtest if you supply your own main
+        GTest::gtest   # use GTest::gtest_main if you don't supply your own main
 )
 
 # Discover and register tests with CTest

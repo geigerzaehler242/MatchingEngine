@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "2700"
+   LastUpgradeVersion = "2710"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,6 +17,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EDD206BC307816C100AD3E55"
                BuildableName = "MatchingEngineTest"
+               BlueprintName = "MatchingEngineTest"
                ReferencedContainer = "container:MatchingEngine.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,6 +48,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EDD206BC307816C100AD3E55"
             BuildableName = "MatchingEngineTest"
+            BlueprintName = "MatchingEngineTest"
             ReferencedContainer = "container:MatchingEngine.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -63,6 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EDD206BC307816C100AD3E55"
             BuildableName = "MatchingEngineTest"
+            BlueprintName = "MatchingEngineTest"
             ReferencedContainer = "container:MatchingEngine.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

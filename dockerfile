@@ -9,8 +9,23 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Install necessary build tools
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential git cmake autoconf libtool pkg-config libboost-all-dev libgtest-dev libgmock-dev net-tools netcat-openbsd ninja-build && rm -rf /var/lib/apt/lists/*
+# Install necessary build tools and dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        git \
+        cmake \
+        autoconf \
+        libtool \
+        pkg-config \
+        libboost-all-dev \
+        libgtest-dev \
+        libgmock-dev \
+        librdkafka-dev \
+        ca-certificates \
+        net-tools \
+        netcat-openbsd \
+        ninja-build \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory inside the container
 WORKDIR /equityExchange
@@ -36,7 +51,12 @@ FROM ubuntu:24.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install only runtime libraries the binary needs
-RUN apt-get update && apt-get install -y --no-install-recommends libboost-all-dev net-tools netcat-openbsd && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libboost-all-dev \
+        librdkafka1 \
+        net-tools \
+        netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy the installed artifacts from the builder
 COPY --from=builder /usr/local /usr/local
@@ -45,7 +65,8 @@ ENV PATH="/usr/local/bin:${PATH}"
 
 EXPOSE 1234
 
-CMD ["myMatchingEngine", "inputFile.csv"] #name and case need to be the same as in add_executable in CMakeLists.txt
+#name and case need to be the same as in add_executable in CMakeLists.txt
+CMD ["myMatchingEngine", "inputFile.csv"]
  
 #COPY entrypoint.sh /equityExchange/entrypoint.sh
 #COPY equityexchangetest /equityExchange/equityexchangetest
@@ -55,4 +76,6 @@ CMD ["myMatchingEngine", "inputFile.csv"] #name and case need to be the same as 
 #CMD ["./entrypoint.sh"]
 
 
-#docker build -t mymatchingengine .
+#docker build --no-cache -t mymatchingengine .
+
+#docker compose up --build
